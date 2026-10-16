@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./Layout.jsx";
 import Login from "./pages/Login.jsx";
 import { getSavedUser } from "./utility/index.js";
+import JobRequest from "./pages/JobRequest.jsx";
 
 function RequireAuth({ children }) {
   if (!getSavedUser()) {
@@ -21,7 +22,10 @@ export default function App() {
             <Layout />
           </RequireAuth>
         }
-      ></Route>
+      >
+        <Route index element={<Navigate to="/requests/new" replace />} />
+        <Route path="requests/new" element={<JobRequest />} />
+      </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

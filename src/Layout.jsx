@@ -2,11 +2,14 @@ import { useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { getSavedUser } from "./utility";
 import { logout } from "./api/login";
-
-const BRAND = "/app-brand.svg";
+import { BRAND } from "./utility/consts";
 
 export default function Layout() {
   const user = getSavedUser();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const pageTitle = "Jobs";
 
   function handleLogout() {
     logout();
@@ -15,7 +18,56 @@ export default function Layout() {
 
   return (
     <div className="shell">
-      Layout Screen
+      {menuOpen ? (
+        <button
+          className="backdrop"
+          type="button"
+          onClick={() => setMenuOpen(false)}
+        />
+      ) : null}
+      <aside className={menuOpen ? "sidebar open" : "sidebar"}>
+        <div className="logo">
+          <img className="logo-mark" src={BRAND} alt="Pulso" />
+          <div>
+            <strong>Pulso</strong>
+            <small>BY THINKSYS</small>
+          </div>
+        </div>
+        <nav onClick={() => setMenuOpen(false)}>
+          <NavLink to="/requests/new">Job Request</NavLink>
+        </nav>
+        <div className="sidebar-user">
+          <span className="avatar">{user?.name?.[0] || "U"}</span>
+          <div>
+            <strong>{user?.name}</strong>
+            <small>{user?.email}</small>
+            <small className="role-line">{user?.role}</small>
+          </div>
+        </div>
+      </aside>
+      <div className="main">
+        <div className="content">
+          <header className="topbar">
+            <div className="topbar-left">
+              <button
+                className="menu-btn"
+                type="button"
+                aria-label="Open menu"
+                onClick={() => setMenuOpen(true)}
+              >
+                <span />
+                <span />
+                <span />
+              </button>
+              <h1>{pageTitle}</h1>
+            </div>
+            <button type="button" className="ghost-btn" onClick={handleLogout}>
+              Logout
+            </button>
+          </header>
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 }
