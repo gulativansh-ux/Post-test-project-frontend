@@ -18,7 +18,6 @@ export async function requestSend(path, options = {}) {
 
   const response = await fetch(`${API}${path}`, { ...options, headers });
   const data = await response.json().catch(() => ({}));
-  debugger
   if (!response.ok) {
     const detail = data.detail;
     const message = Array.isArray(detail)

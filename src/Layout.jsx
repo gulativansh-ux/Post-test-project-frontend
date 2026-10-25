@@ -9,7 +9,7 @@ export default function Layout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
-  const pageTitle = "Jobs";
+  const pageTitle = location.pathname.includes("jobs-screen") ? "Jobs":"Job Request"
 
   function handleLogout() {
     logout();
@@ -35,6 +35,7 @@ export default function Layout() {
         </div>
         <nav onClick={() => setMenuOpen(false)}>
           <NavLink to="/requests/new">Job Request</NavLink>
+          <NavLink to="/jobs-screen">Job</NavLink>
         </nav>
         <div className="sidebar-user">
           <span className="avatar">{user?.name?.[0] || "U"}</span>
