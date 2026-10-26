@@ -1,15 +1,23 @@
 import { useState } from "react";
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import {
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { getSavedUser } from "./utility";
 import { logout } from "./api/login";
 import { BRAND } from "./utility/consts";
+import NotificationBell from "./common-component/NotificationBell";
 
 export default function Layout() {
   const user = getSavedUser();
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
-  const pageTitle = location.pathname.includes("jobs-screen") ? "Jobs":"Job Request"
+  const pageTitle = location.pathname.includes("jobs-screen")
+    ? "Jobs"
+    : "Job Request";
 
   function handleLogout() {
     logout();
@@ -18,13 +26,14 @@ export default function Layout() {
 
   return (
     <div className="shell">
-      {menuOpen ? (
+      {menuOpen && (
         <button
           className="backdrop"
           type="button"
+          aria-label="Close navigation menu"
           onClick={() => setMenuOpen(false)}
         />
-      ) : null}
+      )}
       <aside className={menuOpen ? "sidebar open" : "sidebar"}>
         <div className="logo">
           <img className="logo-mark" src={BRAND} alt="Pulso" />
@@ -38,7 +47,9 @@ export default function Layout() {
           <NavLink to="/jobs-screen">Job</NavLink>
         </nav>
         <div className="sidebar-user">
-          <span className="avatar">{user?.name?.[0] || "U"}</span>
+          <span className="avatar">
+            {user?.name?.[0] || "U"}
+          </span>
           <div>
             <strong>{user?.name}</strong>
             <small>{user?.email}</small>
@@ -62,9 +73,16 @@ export default function Layout() {
               </button>
               <h1>{pageTitle}</h1>
             </div>
-            <button type="button" className="ghost-btn" onClick={handleLogout}>
-              Logout
-            </button>
+            <div className="topbar-actions">
+              <NotificationBell />
+              <button
+                type="button"
+                className="ghost-btn"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
           </header>
           <Outlet />
         </div>

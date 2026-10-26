@@ -4,6 +4,7 @@ import Login from "./pages/Login.jsx";
 import { getSavedUser } from "./utility/index.js";
 import JobRequest from "./pages/JobRequest.jsx";
 import Jobs from "./pages/Jobs.jsx";
+import JobDetail from "./pages/JobDetail.jsx";
 
 function RequireAuth({ children }) {
   if (!getSavedUser()) {
@@ -27,6 +28,7 @@ export default function App() {
         <Route index element={<Navigate to="/requests/new" replace />} />
         <Route path="requests/new" element={<JobRequest />} />
         <Route path="/jobs-screen" element={<Jobs/>} />
+        <Route path="/jobs-detail/:jobId" element={<JobDetail/>} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
