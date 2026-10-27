@@ -439,7 +439,7 @@ export default function JobRequest() {
 
           {!errors.search_location && (
             <span className="field-help">
-              Type a country or city, then press Enter or click a
+              Type a country, then press Enter or click a
               suggestion.
             </span>
           )}
